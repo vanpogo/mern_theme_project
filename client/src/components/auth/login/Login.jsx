@@ -23,7 +23,7 @@ function Login(props) {
             },
           },
         }}
-        {...register("email", { required: "Обязательное поле", pattern: /@/ })}
+        {...register("email")}
         error={!!errors?.email}
         type="email"
         margin="normal"
@@ -33,10 +33,7 @@ function Login(props) {
         label="Email"
       />
       <TextField
-        {...register("password", {
-          required: "Обязательное поле",
-          minLength: { value: 8, message: "Не менее 8 символов" },
-        })}
+        {...register("password")}
         InputLabelProps={{
           sx: {
             color: "white",

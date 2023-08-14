@@ -11,6 +11,8 @@ import {
 } from "../../../redux/slices/auth/authSlice";
 import { useForm } from "react-hook-form";
 import { useStyles } from "./style";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "../../../utils/yup/index.js";
 
 function RootAuthComponent() {
   const { pathname } = useLocation();
@@ -27,7 +29,9 @@ function RootAuthComponent() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
 
   const onHandleSubmit = async (data) => {
     try {
