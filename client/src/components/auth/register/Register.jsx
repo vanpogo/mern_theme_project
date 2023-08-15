@@ -1,12 +1,13 @@
 import React from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { useStyles } from "./style";
 import { inputLabelClasses } from "@mui/material/InputLabel";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function Register(props) {
-  const { register, errors } = props;
+  const { register, errors, isLoading } = props;
 
   const classes = useStyles();
 
@@ -94,14 +95,15 @@ function Register(props) {
           },
         }}
       />
-      <Button
+
+      <LoadingButton
         className={classes.btn}
         type="submit"
         variant="contained"
-        margin="normal"
+        loading={isLoading}
       >
         Регистрация
-      </Button>
+      </LoadingButton>
       <Typography fontFamily={"Poppins"} variant="h4" className={classes.text}>
         у вас есть аккаунт?
         <Box component="span" className={classes.link}>

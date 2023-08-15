@@ -12,7 +12,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useStyles } from "./style";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../../../utils/yup/index.js";
+import { loginSchema, registerSchema } from "../../../utils/yup/index.js";
 
 function RootAuthComponent() {
   const { pathname } = useLocation();
@@ -20,7 +20,7 @@ function RootAuthComponent() {
   const navigate = useNavigate();
 
   const isAuth = useSelector(isCheckAuth);
-  const { token } = useSelector((state) => state.auth);
+  const { token, isLoading } = useSelector((state) => state.auth);
 
   const classes = useStyles();
 
@@ -30,13 +30,16 @@ function RootAuthComponent() {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(
+      pathname === "/register" ? registerSchema : loginSchema
+    ),
   });
 
   const onHandleSubmit = async (data) => {
     try {
       if (pathname === "/register") {
         dispatch(registerUser(data));
+        reset();
       } else {
         dispatch(loginUser(data));
         reset();
@@ -57,9 +60,13 @@ function RootAuthComponent() {
       <Box component="div" className={classes.block}>
         <form onSubmit={handleSubmit(onHandleSubmit)}>
           {pathname === "/register" ? (
-            <Register register={register} errors={errors} />
+            <Register
+              register={register}
+              errors={errors}
+              isLoading={isLoading}
+            />
           ) : pathname === "/login" ? (
-            <Login register={register} errors={errors} />
+            <Login register={register} errors={errors} isLoading={isLoading} />
           ) : null}
         </form>
       </Box>
